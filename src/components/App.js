@@ -1,10 +1,26 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import AddTurf from './AddTurf';
+import Home from './Home';
+import Navbar from './Navbar';
+import TurfList from './TurfList';
+
 
 const App = () => {
+  
   return (
-    <div className=" mt-5">
-      <h3 className="text-black text-4xl">Welcome to the Turf4u App</h3>
-    </div>
+    <BrowserRouter>
+        <div>
+        <Navbar/>
+        <Switch>
+          <Route exact path="/" component={Home}/>
+          <Route path="/add" component={AddTurf} />
+          <Route path="/view" component={TurfList}/>
+        </Switch>
+
+      </div>
+    </BrowserRouter>
+    
   )
 }
 
