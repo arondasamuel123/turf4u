@@ -28,7 +28,7 @@ const AddTurf = () => {
             console.log("Turf Added", json)
         })
         .catch(err => {
-            console.log("Error occured", err)
+             console.log("Error occured", err.message)
         })
 
     }
