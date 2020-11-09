@@ -32,6 +32,10 @@ export const makeServer = () => {
             // this.get("/api/orgs", (schema) => {
             //     return schema.orgs.all()
             // })
+            this.post("/api/create-org", (schema, request) => {
+                const body = JSON.parse(request.requestBody)
+                return schema.orgs.create(body);
+            })
 
             this.post("/api/add-turf", (schema, request) => {
                 const body = JSON.parse(request.requestBody)
