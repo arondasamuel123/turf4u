@@ -10,25 +10,23 @@ export const makeServer = () => {
                 pitches: hasMany()
             })
         },
-        // seeds(server) {
-        //     const arenaKla = server.create("org", {name: "Arena Kampala Ltd"})
-        //     server.create("pitch",{
-        //         pitch_name: "Arena Kampala",
-        //         location: "Kampala",
-        //         org:arenaKla
-        //     })
-
-        //   const turf1 =  server.create("pitch",{
-        //         pitch_name: "Arena 256",
-        //         location: "Kampala",
-        //         org:arenaKla
-        //     })
-        //     console.log(turf1);
-        // },
+        seeds(server) {
+            server.create("org",{
+                contact_number: "+2567712345678",
+                organization_email: "arenakla@gmail.com",
+                organization_location: "Kampala",
+                organization_name: "Arena Kla",
+                pitches: [
+                    server.create("pitch", {
+                        pitches: 2,
+                        changing_rooms: 2,
+                        lockers_available: "Yes",
+                        benches: 1
+                    })
+                ]
+            })
+        },
         routes() {
-            this.get("/api/pitches", (schema) => {
-                return schema.pitches.all()
-              })
             this.get("/api/orgs", (schema) => {
                 return schema.orgs.all()
             })
@@ -36,11 +34,27 @@ export const makeServer = () => {
                 const body = JSON.parse(request.requestBody)
                 return schema.orgs.create(body);
             })
-
-            this.post("/api/add-turf", (schema, request) => {
-                const body = JSON.parse(request.requestBody)
-                return  schema.pitches.create(body)
+            this.get('/api/orgs/:id/turfs',(schema, request) => {
+                // eslint-disable-next-line prefer-const
+                let orgId = request.params.id;
+                // eslint-disable-next-line prefer-const
+                let org = schema.orgs.find(orgId);
+                return org.pitches;
             })
+            // this.get('/api/orgs/:id/create',(schema, request) => {
+            //     // eslint-disable-next-line prefer-const
+            //     let orgId = request.params.id
+            //     // eslint-disable-next-line prefer-const
+            //     let org = schema.orgs.find(orgId);
+            //     const attrs = JSON.parse(request.requestBody)
+            //     org.CreatePitch(attrs)
+            //     org.save();
+            // })
+
+            // this.post("/api/add-turf", (schema, request) => {
+            //     const body = JSON.parse(request.requestBody)
+            //     return  schema.pitches.create(body)
+            // })
         }
     });
 }

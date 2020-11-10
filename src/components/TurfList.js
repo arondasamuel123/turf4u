@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import TurfCard from './TurfCard';
 
 const TurfList = () => {
   const [turfs, setTurfs] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  // eslint-disable-next-line prefer-const
+  let { id } = useParams();
 
   useEffect(() => {
-    const url = '/api/pitches';
+    const url = `/api/orgs/${id}/turfs`;
 
-    fetch(url)
+     fetch(url)
       .then(res => res.json())
       .then(json => {
         setIsLoaded(true);
         setTurfs(json.pitches);
+        // console.log(json)
       });
-  }, []);
+  }, [id]);
 
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -40,9 +44,10 @@ const TurfList = () => {
               <TurfCard
                 key={turf.id}
                 id={turf.id}
-                turfName={turf.turf_name}
-                createdAt={turf.createdAt}
                 pitches={turf.pitches}
+                changingRooms={turf.changing_rooms}
+                lockersAvailable={turf.lockers_available}
+                benches={turf.benches}
               />
             );
           })
