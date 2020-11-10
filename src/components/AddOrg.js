@@ -29,7 +29,7 @@ const AddOrg = () => {
       body: JSON.stringify({
         contact_number: org.contact_number,
         organization_email: org.org_email,
-        orgnization_location: org.org_location,
+        organization_location: org.org_location,
         organization_name: org.org_name,
       }),
     })

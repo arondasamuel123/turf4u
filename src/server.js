@@ -29,9 +29,9 @@ export const makeServer = () => {
             this.get("/api/pitches", (schema) => {
                 return schema.pitches.all()
               })
-            // this.get("/api/orgs", (schema) => {
-            //     return schema.orgs.all()
-            // })
+            this.get("/api/orgs", (schema) => {
+                return schema.orgs.all()
+            })
             this.post("/api/create-org", (schema, request) => {
                 const body = JSON.parse(request.requestBody)
                 return schema.orgs.create(body);

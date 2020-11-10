@@ -29,25 +29,18 @@ const Navbar = () => {
             Home
           </NavLink>
 
-          <NavLink
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
-            to="/add"
-          >
-            Create Turf
-          </NavLink>
-
-          <NavLink
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
-            to="/view"
-          >
-            View Turfs
-          </NavLink>
 
           <NavLink
             className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
             to="/add-org"
           >
             Add Organization
+          </NavLink>
+          <NavLink
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+            to="/view-orgs"
+          >
+            View Organizations
           </NavLink>
         </div>
         <div>

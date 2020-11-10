@@ -4,6 +4,7 @@ import AddOrg from './AddOrg';
 import AddTurf from './AddTurf';
 import Home from './Home';
 import Navbar from './Navbar';
+import OrgList from './OrgList';
 import TurfList from './TurfList';
 
 const App = () => {
@@ -13,9 +14,10 @@ const App = () => {
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/add" component={AddTurf} />
-          <Route path="/view" component={TurfList} />
+          <Route path="/add/:id" component={AddTurf} />
+          <Route path="/view/:id" component={TurfList} />
           <Route path="/add-org" component={AddOrg} />
+          <Route path="/view-orgs" component={OrgList} />
         </Switch>
       </div>
     </BrowserRouter>
