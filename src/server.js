@@ -41,6 +41,11 @@ export const makeServer = () => {
                 let org = schema.orgs.find(orgId);
                 return org.pitches;
             })
+            this.get('api/orgs/:id', (schema, request) => {
+                const orgId = request.params.id
+                const org = schema.orgs.find(orgId);
+                return org;
+            })
             // this.get('/api/orgs/:id/create',(schema, request) => {
             //     // eslint-disable-next-line prefer-const
             //     let orgId = request.params.id

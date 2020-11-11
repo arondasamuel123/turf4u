@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import TurfCard from './TurfCard';
+import { useOrg } from '../misc/custom-hook';
 
 const TurfList = () => {
   const [turfs, setTurfs] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
+  const {orgName} = useOrg(id);
+  
 
   useEffect(() => {
     const url = `/api/orgs/${id}/turfs`;
-
+    // const url = `/api/orgs/${id}`
      fetch(url)
       .then(res => res.json())
       .then(json => {
         setIsLoaded(true);
         setTurfs(json.pitches);
-        // console.log(json)
+        // console.log(json.org.organization_name)
       });
   }, [id]);
 
@@ -48,6 +51,7 @@ const TurfList = () => {
                 changingRooms={turf.changing_rooms}
                 lockersAvailable={turf.lockers_available}
                 benches={turf.benches}
+                orgName={orgName}
               />
             );
           })
