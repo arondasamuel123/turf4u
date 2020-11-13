@@ -5,6 +5,7 @@ const reducer = (prevState, action) => {
     case 'FETCH_SUCCESS':
       return {
         orgName: action.orgName,
+        pitchId: action.pitchId,
         error: null,
       };
     case 'FETCH_FAILED':
@@ -19,6 +20,7 @@ const reducer = (prevState, action) => {
 export const useOrg = orgId => {
   const [state, dispatch] = useReducer(reducer, {
     orgName: '',
+    pitchId: '',
   });
 
   useEffect(() => {
@@ -31,7 +33,8 @@ export const useOrg = orgId => {
         if (isMounted) {
           dispatch({
             type: 'FETCH_SUCCESS',
-            orgName: json.org.organization_name,
+            orgName: json.organization_name,
+            pitchId: json.pitchId,
           });
         }
       })

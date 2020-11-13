@@ -3,12 +3,14 @@ import OrgCard from './OrgCard';
 
 const OrgList = () => {
   const [orgs, setOrgs] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const url = '/api/orgs';
+    setIsLoading(true);
     fetch(url)
       .then(res => res.json())
       .then(json => {
+        setIsLoading(false);
         setOrgs(json.orgs);
       })
       .catch(err => {
@@ -16,8 +18,12 @@ const OrgList = () => {
       });
   }, []);
 
+  if (isLoading) {
+    return <div>Loading.....</div>;
+  }
+
   return (
-    <div className="flex mt-10 mx-auto">
+    <div className="flex sm:flex-wrap md:flex-wrap justify-center mt-10 mx-auto p-8">
       {orgs.map(org => {
         return (
           <OrgCard

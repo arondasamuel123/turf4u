@@ -5,6 +5,7 @@ import AddTurf from './AddTurf';
 import Home from './Home';
 import Navbar from './Navbar';
 import OrgList from './OrgList';
+import Timeslots from './Timeslots';
 import TurfList from './TurfList';
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/view/:id" component={TurfList} />
           <Route path="/add-org" component={AddOrg} />
           <Route path="/view-orgs" component={OrgList} />
+          <Route path="/view-slots/:id" component={Timeslots} />
         </Switch>
       </div>
     </BrowserRouter>
