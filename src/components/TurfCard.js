@@ -1,7 +1,14 @@
 import React from 'react';
 import pitch from '../images/soccer.svg';
 
-const TurfCard = ({ id, pitches, lockersAvailable, changingRooms, benches, orgName }) => {
+const TurfCard = ({
+  id,
+  pitches,
+  lockersAvailable,
+  changingRooms,
+  benches,
+  orgName,
+}) => {
   return (
     <div className="max-w-xs bg-gray-100 rounded-lg overflow-hidden shadow-lg mb-8 mr-8">
       <img className="w-full" src={pitch} alt="turf" />
@@ -10,8 +17,12 @@ const TurfCard = ({ id, pitches, lockersAvailable, changingRooms, benches, orgNa
           {id} | {orgName}
         </div>
         <p className="text-gray-700 text-base">Pitches:{pitches}</p>
-        <p className="text-gray-700 text-base">Lockers Avaiable:{lockersAvailable}</p>
-        <p className="text-gray-700 text-base">Changing Rooms:{changingRooms}</p>
+        <p className="text-gray-700 text-base">
+          Lockers Avaiable:{lockersAvailable}
+        </p>
+        <p className="text-gray-700 text-base">
+          Changing Rooms:{changingRooms}
+        </p>
         <p className="text-gray-700 text-base">Benches to sit on:{benches}</p>
       </div>
       <div className="flex px-6 pt-4 pb-2">

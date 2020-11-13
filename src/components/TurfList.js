@@ -8,13 +8,12 @@ const TurfList = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
-  const {orgName} = useOrg(id);
-  
+  const { orgName } = useOrg(id);
 
   useEffect(() => {
     const url = `/api/orgs/${id}/turfs`;
     // const url = `/api/orgs/${id}`
-     fetch(url)
+    fetch(url)
       .then(res => res.json())
       .then(json => {
         setIsLoaded(true);
@@ -49,7 +48,7 @@ const TurfList = () => {
                 id={turf.id}
                 pitches={turf.pitches}
                 changingRooms={turf.changing_rooms}
-                lockersAvailable={turf.lockers_available}
+                lockersAvailable={turf.lockers}
                 benches={turf.benches}
                 orgName={orgName}
               />

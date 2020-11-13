@@ -1,11 +1,9 @@
-import { belongsTo, createServer, hasMany, Model } from "miragejs"
+import {createServer, hasMany, Model } from "miragejs"
 
 export const makeServer = () => {
     createServer({
         models: {
-            pitch: Model.extend({
-                org: belongsTo()
-            }),
+            pitch: Model,
             org: Model.extend({
                 pitches: hasMany()
             })
@@ -20,14 +18,19 @@ export const makeServer = () => {
                     server.create("pitch", {
                         pitches: 2,
                         changing_rooms: 2,
-                        lockers_available: "Yes",
+                        lockers: "Yes",
                         benches: 1
                     })
                 ]
             })
+            console.log()
         },
         routes() {
             this.get("/api/orgs", (schema) => {
+                // const org = schema.orgs.find(1);
+                // console.log(schema.orgs.all());
+                // console.log(org.pitchIds);
+                // console.log(org.pitches);
                 return schema.orgs.all()
             })
             this.post("/api/create-org", (schema, request) => {
@@ -46,18 +49,20 @@ export const makeServer = () => {
                 const org = schema.orgs.find(orgId);
                 return org;
             })
-            // this.get('/api/orgs/:id/create',(schema, request) => {
-            //     // eslint-disable-next-line prefer-const
-            //     let orgId = request.params.id
-            //     // eslint-disable-next-line prefer-const
-            //     let org = schema.orgs.find(orgId);
-            //     const attrs = JSON.parse(request.requestBody)
-            //     org.CreatePitch(attrs)
-            //     org.save();
-            // })
+            this.post('/api/orgs/:id/create',(schema, request) => {
+                // eslint-disable-next-line prefer-const
+                let orgId = request.params.id
+                // eslint-disable-next-line prefer-const
+                let org = schema.orgs.find(orgId);
+                const attrs = JSON.parse(request.requestBody)
+                console.log(attrs);
+                return org.createPitch(attrs)
+            })
 
             // this.post("/api/add-turf", (schema, request) => {
             //     const body = JSON.parse(request.requestBody)
+            //     const json = pitch.org
+            //     console.log(body);
             //     return  schema.pitches.create(body)
             // })
         }

@@ -37,12 +37,11 @@ const AddOrg = () => {
         setIsSaved(false);
         res.json();
         setOrg({
-            contact_number: '',
-            org_email: '',
-            org_location: '',
-            org_name: '',
-          });
-          
+          contact_number: '',
+          org_email: '',
+          org_location: '',
+          org_name: '',
+        });
       })
       .catch(err => {
         setIsSaved(false);
