@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useOrg } from '../misc/custom-hook';
+import CreateSlot from './CreateSlot';
+// import CreateSlot from './CreateSlot';
 import TimeslotCard from './TimeslotCard';
 
 const Timeslots = () => {
@@ -11,34 +13,56 @@ const Timeslots = () => {
   let { id } = useParams();
   // eslint-disable-next-line prefer-const
   let { pitchId } = useOrg(id);
-  useEffect(() => {
-    const url = `/api/turf/${pitchId}/timeslots`;
+
+  const fetchTurfs = useCallback(async () => {
     setIsLoading(true);
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
-        setIsLoading(false);
-        setTimeslots(json.timeslots);
-      });
+    const url = `/api/turf/${pitchId}/timeslots`;
+    try {
+      const response = await fetch(url);
+      const turfs = await response.json();
+      setIsLoading(false);
+      setTimeslots(turfs.timeslots);
+    } catch (err) {
+      setIsLoading(false);
+    }
   }, [pitchId]);
+
+  useEffect(() => {
+    fetchTurfs();
+  }, [fetchTurfs]);
 
   if (isLoading) {
     return <div>Loading....</div>;
   }
-
-  return (
-    <div className="flex flex-wrap justify-evenly p-10">
-      {timeslots.length === 0 ? (
-        <div>
+  if (timeslots.length === 0) {
+    return (
+      <div>
+        <div className="relative">
+          <div className="mr-3  absolute top-0 right-0">
+            <CreateSlot fetchTurfs={fetchTurfs} />
+          </div>
+        </div>
+        <div className=" pt-56">
           <span>
-            {' '}
-            <h3 className="text-xl text-teal-800 font-semibold">
+            <h3 className="text-center text-2xl text-teal-800 font-semibold">
               No Timeslots created
             </h3>
           </span>
         </div>
-      ) : (
-        timeslots.map(timeslot => {
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-10">
+      <div className="relative mb-6">
+        <div className="mr-3 absolute top-0 right-0">
+          <CreateSlot fetchTurfs={fetchTurfs} />
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-center p-10">
+        {timeslots.map(timeslot => {
           return (
             <TimeslotCard
               key={timeslot.id}
@@ -48,8 +72,8 @@ const Timeslots = () => {
               price={timeslot.price}
             />
           );
-        })
-      )}
+        })}
+      </div>
     </div>
   );
 };

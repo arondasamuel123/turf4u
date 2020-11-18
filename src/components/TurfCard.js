@@ -37,18 +37,12 @@ const TurfCard = ({
           <span className="ml-3 font-normal text-teal-800">{benches}</span>
         </p>
       </div>
-      <div className="flex justify-evenly mb-6 mt-4">
+      <div className="flex justify-center mb-6 mt-4">
         <Link
-          className="inline-block rounded-lg text-sm  py-2 px-4 mr-2 uppercase tracking-wider font-semibold bg-teal-500 text-white focus:outline-none focus:shadow-outline"
+          className="inline-block rounded-lg text-sm  py-2 px-4 mr-2 uppercase tracking-wider font-semibold bg-teal-500 text-white focus:outline-none focus:shadow-outline hover:bg-teal-700"
           to={`/view-slots/${id}`}
         >
           View Slots
-        </Link>
-        <Link
-          className="inline-block rounded-lg text-sm  py-2 px-4 mr-2 uppercase tracking-wider bg-transparent hover:bg-gray-500 text-gray-800 font font-semibold hover:text-gray-400  border border-gray-700 hover:border-transparent"
-          to={`/view-slots/${id}`}
-        >
-          Create Slots
         </Link>
       </div>
     </div>

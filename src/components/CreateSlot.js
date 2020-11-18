@@ -1,59 +1,65 @@
 import React, { useCallback, useState } from 'react';
+import { useParams } from 'react-router';
+import { useOrg } from '../misc/custom-hook';
 
-const AddTurf = ({ id, orgName }) => {
+const CreateSlot = ({ fetchTurfs }) => {
   const [showModal, setShowModal] = useState(false);
-  const [turf, setTurf] = useState({
-    pitches: 0,
-    changing_rooms: 0,
-    lockers: 'None',
-    benches: 0,
-    orgId: id,
+  const [slot, setSlot] = useState({
+    start_time: '',
+    stop_time: '',
+    price: 0,
   });
+  // eslint-disable-next-line prefer-const
+  let { id } = useParams();
+  // eslint-disable-next-line prefer-const
+  let { pitchId } = useOrg(id);
+
   const onInputChange = useCallback(
     e => {
-      setTurf({
-        ...turf,
+      setSlot({
+        ...slot,
         [e.target.name]: e.target.value,
       });
     },
-    [turf]
+    [slot]
   );
 
-  const onCreateTurf = () => {
-    fetch(`/api/orgs/${id}/create`, {
+  const onSubmit = () => {
+    const url = `/api/turfs/${pitchId}/timeslot`;
+    fetch(url, {
       method: 'POST',
       body: JSON.stringify({
-        pitches: turf.pitches,
-        changing_rooms: turf.changing_rooms,
-        lockers: turf.lockers,
-        benches: turf.benches,
+        start_time: slot.start_time,
+        stop_time: slot.stop_time,
+        price: slot.price,
       }),
-    })
-      .then(res => res.json())
-      .then(json => {
-        setTurf({
-          pitches: 0,
-          changing_rooms: 0,
-          lockers: 'None',
-          benches: 0,
-        });
-        setShowModal(false);
-        console.log('Turf Added', json);
-      })
-      .catch(err => {
-        console.log('Error occured', err.message);
-      });
-  };
+    });
 
+    fetchTurfs();
+  };
   return (
     <>
       <button
         type="button"
-        style={{ transition: 'all .15s ease' }}
+        style={{ transition: 'all .2s ease' }}
         onClick={() => setShowModal(true)}
-        className="inline-block rounded-lg text-sm  py-2 px-4  uppercase tracking-wider font-semibold bg-blue-500 text-white focus:outline-none focus:shadow-outline"
+        className="inline-block rounded-lg text-sm py-2 px-4 uppercase tracking-wider font-semibold bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:shadow-outline"
       >
-        Create Turf
+        <svg
+          className=" float-left mr-2 h-6"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span className="text-center">Create Slots</span>
       </button>
       {showModal ? (
         <>
@@ -76,7 +82,7 @@ const AddTurf = ({ id, orgName }) => {
               >
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="px-5 mb-4">
-                    <h4 className="text-gray-800 text-lg">{orgName}</h4>
+                    <h4 className="text-gray-800 text-lg">Add Timeslots</h4>
                   </div>
                   <form>
                     <div className="mb-6">
@@ -86,41 +92,12 @@ const AddTurf = ({ id, orgName }) => {
                       >
                         <input
                           className="appearance-none rounded w-full px-3 py-2 border focus:outline-none focus:shadow-outline-teal placeholder-gray-500 focus:border-teal-700 sm:text-sm sm:leading-5"
-                          id="no-of-pitches"
-                          placeholder="No.of pitches"
-                          type="number"
-                          name="pitches"
-                          value={turf.pitches}
+                          placeholder="Start time"
+                          type="text"
+                          name="start_time"
                           onChange={onInputChange}
                         />
                       </label>
-                    </div>
-
-                    <div className="relative mb-6">
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="Lockers available"
-                      >
-                        <select
-                          className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          value={turf.lockers}
-                          name="lockers"
-                          onChange={onInputChange}
-                        >
-                          <option>Select....</option>
-                          <option>Yes</option>
-                          <option>No</option>
-                        </select>
-                      </label>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg
-                          className="fill-current h-4 w-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                        </svg>
-                      </div>
                     </div>
 
                     <div className="mb-6">
@@ -130,11 +107,9 @@ const AddTurf = ({ id, orgName }) => {
                       >
                         <input
                           className="appearance-none rounded w-full px-3 py-2 border focus:outline-none focus:shadow-outline-teal placeholder-gray-500 focus:border-teal-700 sm:text-sm sm:leading-5"
-                          id="changing_rooms"
-                          placeholder="No.of changing rooms"
-                          type="number"
-                          name="changing_rooms"
-                          value={turf.changing_rooms}
+                          placeholder="Stop time"
+                          type="text"
+                          name="stop_time"
                           onChange={onInputChange}
                         />
                       </label>
@@ -142,15 +117,13 @@ const AddTurf = ({ id, orgName }) => {
                     <div className="mb-6">
                       <label
                         className="block text-gray-700 text-sm font-bold mb-2"
-                        htmlFor="benches"
+                        htmlFor="price"
                       >
                         <input
                           className="appearance-none rounded w-full px-3 py-2 border focus:outline-none focus:shadow-outline-teal placeholder-gray-500 focus:border-teal-700 sm:text-sm sm:leading-5"
-                          id="benches"
-                          placeholder="No.of benches"
+                          placeholder="Price"
                           type="number"
-                          name="benches"
-                          value={turf.benches}
+                          name="price"
                           onChange={onInputChange}
                         />
                       </label>
@@ -161,10 +134,10 @@ const AddTurf = ({ id, orgName }) => {
                   <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                     <button
                       type="button"
-                      className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-teal-500 text-base leading-6 font-medium text-white  hover:bg-teal-700 focus:outline-none sm:text-sm sm:leading-5"
-                      onClick={onCreateTurf}
+                      className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-500 text-base leading-6 font-medium text-white  hover:bg-blue-700 focus:outline-none focus:shadow-outline sm:text-sm sm:leading-5"
+                      onClick={onSubmit}
                     >
-                      Add Turf
+                      Create timeslot
                     </button>
                   </span>
 
@@ -187,4 +160,4 @@ const AddTurf = ({ id, orgName }) => {
   );
 };
 
-export default AddTurf;
+export default CreateSlot;

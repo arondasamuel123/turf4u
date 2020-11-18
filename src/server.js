@@ -124,13 +124,13 @@ export const makeServer = () => {
                 return pitch.timeslots;
             })
 
-            // this.post('/api/turfs/:id/timeslot', (schema, request) => {
-            //     const pitchId = request.params.id;
-            //     const pitch = schema.pitches.find(pitchId);
-            //     const attrs = JSON.parse(request.requestBody)
+            this.post('/api/turfs/:id/timeslot', (schema, request) => {
+                const pitchId = request.params.id;
+                const pitch = schema.pitches.find(pitchId);
+                const attrs = JSON.parse(request.requestBody)
                 
-            //     return pitch.createTimeslots(attrs);
-            // })
+                return pitch.createTimeslot(attrs);
+            })
 
             // this.post("/api/add-turf", (schema, request) => {
             //     const body = JSON.parse(request.requestBody)
