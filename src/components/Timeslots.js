@@ -12,7 +12,7 @@ const Timeslots = () => {
   // eslint-disable-next-line prefer-const
   let { id } = useParams();
   // eslint-disable-next-line prefer-const
-  let { pitchId } = useOrg(id);
+  let { pitchId, orgName } = useOrg(id);
 
   const fetchTurfs = useCallback(async () => {
     setIsLoading(true);
@@ -55,6 +55,7 @@ const Timeslots = () => {
 
   return (
     <div className="p-10">
+      <h3 className="text-gray-800 text-2xl font-semibold text-center">Available Timeslots for {orgName}</h3>
       <div className="relative mb-6">
         <div className="mr-3 absolute top-0 right-0">
           <CreateSlot fetchTurfs={fetchTurfs} />

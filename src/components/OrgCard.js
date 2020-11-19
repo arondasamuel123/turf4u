@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import organization from '../images/organization-chart.svg';
 import AddTurf from './AddTurf';
+import TurfModal from './TurfModal';
 
 const OrgCard = ({ id, contactNumber, orgEmail, orgLocation, orgName }) => {
   return (
@@ -29,12 +29,8 @@ const OrgCard = ({ id, contactNumber, orgEmail, orgLocation, orgName }) => {
           </span>
         </p>
         <div className="flex px-6 pt-4 pb-2">
-          <Link
-            className="inline-block rounded-lg text-sm  py-2 px-4 mr-2 uppercase tracking-wider font-semibold bg-teal-500 text-white focus:outline-none focus:shadow-outline"
-            to={`/view/${id}`}
-          >
-            View Turfs
-          </Link>
+          <TurfModal id={id} orgName={orgName} />
+
           <AddTurf id={id} orgName={orgName} />
         </div>
       </div>

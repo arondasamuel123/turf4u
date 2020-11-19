@@ -12,6 +12,7 @@ const OrgList = () => {
       .then(json => {
         setIsLoading(false);
         setOrgs(json.orgs);
+
       })
       .catch(err => {
         console.log(err);
