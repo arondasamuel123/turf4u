@@ -1,35 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import OrgCard from './OrgCard';
 
-const OrgList = () => {
-  const [orgs, setOrgs] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const isMounted = useRef(true);
-  const fetchOrgs = async () => {
-   
-    try {
-        setIsLoading(true)
-        const url = '/api/orgs';
-        const response = await fetch(url)
-        const json = await response.json()
-        if(isMounted) {
-          setOrgs(json.orgs)
-          setIsLoading(false)
-        } 
-        
-    } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-    }
-  }
-  useEffect(() => {
-        fetchOrgs();
-
-      return () => {
-        isMounted.current = false;
-      }
-  }, []);
-
+const OrgList = ({orgs, isLoading, fetchOrgs}) => {
+  
+ 
   if (isLoading) {
     return <div>Loading.....</div>;
   }

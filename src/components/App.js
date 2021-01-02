@@ -5,7 +5,7 @@ import AddTurf from './AddTurf';
 import CreateSlot from './CreateSlot';
 import Home from './Home';
 import Navbar from './Navbar';
-import OrgList from './OrgList';
+// import OrgList from './OrgList';
 import Timeslots from './Timeslots';
 
 const App = () => {
@@ -17,7 +17,7 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route path="/add/:id" component={AddTurf} />
           <Route path="/add-org" component={AddOrg} />
-          <Route path="/view-orgs" component={OrgList} />
+          {/* <Route path="/view-orgs" component={OrgList} /> */}
           <Route path="/view-slots/:id" component={Timeslots} />
           <Route path="/create-slots/:id" component={CreateSlot} />
         </Switch>
