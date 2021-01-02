@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import organization from '../images/organization-chart.svg';
 import AddTurf from './AddTurf';
 import TurfModal from './TurfModal';
 
-const OrgCard = ({ id, contactNumber, orgEmail, orgLocation, orgName }) => {
+const OrgCard = ({ id, contactNumber, orgEmail, orgLocation, orgName, fetchOrgs }) => {
+  const [turf, setTurf] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const fetchTurf = useCallback( async () => {
+    setIsLoading(true);
+    const url = `/api/orgs/${id}/turfs`;
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      setIsLoading(false);
+      if(json.pitch === null) {
+        return;
+      }
+      setTurf(json.pitch);
+
+    } catch(error) {
+      setIsLoading(false);
+    }
+},[id])
+
   return (
     <div className="max-w-sm bg-teal-100 rounded-lg overflow-hidden shadow-lg mb-8 mr-8">
       <img
@@ -29,9 +49,9 @@ const OrgCard = ({ id, contactNumber, orgEmail, orgLocation, orgName }) => {
           </span>
         </p>
         <div className="flex px-6 pt-4 pb-2">
-          <TurfModal id={id} orgName={orgName} />
+          <TurfModal id={id} orgName={orgName} turf={turf} isLoading={isLoading}  fetchTurf={fetchTurf} />
 
-          <AddTurf id={id} orgName={orgName} />
+          <AddTurf id={id} orgName={orgName} fetchTurf={fetchTurf} fetchOrgs={fetchOrgs} />
         </div>
       </div>
     </div>

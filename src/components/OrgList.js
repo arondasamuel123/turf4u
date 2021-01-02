@@ -1,22 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import OrgCard from './OrgCard';
 
 const OrgList = () => {
   const [orgs, setOrgs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    const url = '/api/orgs';
-    setIsLoading(true);
-    fetch(url)
-      .then(res => res.json())
-      .then(json => {
+  const isMounted = useRef(true);
+  const fetchOrgs = async () => {
+   
+    try {
+        setIsLoading(true)
+        const url = '/api/orgs';
+        const response = await fetch(url)
+        const json = await response.json()
+        if(isMounted) {
+          setOrgs(json.orgs)
+          setIsLoading(false)
+        } 
+        
+    } catch (error) {
+        console.log(error);
         setIsLoading(false);
-        setOrgs(json.orgs);
+    }
+  }
+  useEffect(() => {
+        fetchOrgs();
 
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      return () => {
+        isMounted.current = false;
+      }
   }, []);
 
   if (isLoading) {
@@ -34,6 +45,7 @@ const OrgList = () => {
             orgLocation={org.organization_location}
             orgEmail={org.organization_email}
             contactNumber={org.contact_number}
+            fetchOrgs={fetchOrgs}
           />
         );
       })}

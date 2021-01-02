@@ -15,38 +15,21 @@ const customStyles = {
     transform             : 'translate(-50%, -50%)'
   }
 };
-const TurfModal = ({id, orgName}) => {
-  const [turf, setTurf] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+const TurfModal = ({id, orgName, turf, fetchTurf}) => {
   const [showModal, setShowModal] = useState(false);
   const open = useCallback(() => setShowModal(true),[])
   const close = useCallback(() => setShowModal(false),[])
-
   // eslint-disable-next-line prefer-const
   let { pitchId } = useOrg(id);
-
-  const fetchTurf = useCallback( async () => {
-        setIsLoading(true);
-        const url = `/api/orgs/${id}/turfs`;
-        try {
-          const response = await fetch(url);
-          const json = await response.json();
-          setIsLoading(false);
-          if(json.pitch === null) {
-            return;
-          }
-          setTurf(json.pitch);
-
-        } catch(error) {
-          setIsLoading(false);
-          console.log(error);
-        }
-  },[id])
+  
 
   useEffect(() => {
+      
       fetchTurf();
+
   }, [fetchTurf]);
 
+  
   return (
         <>
           <button type="button" className="inline-block rounded-lg text-sm  py-2 px-4 mr-2 uppercase tracking-wider font-semibold bg-teal-500 text-white focus:outline-none focus:shadow-outline" onClick={open}>View Turf</button>
@@ -56,9 +39,7 @@ const TurfModal = ({id, orgName}) => {
               style={customStyles}
               contentLabel="Turf Modal"
             >
-              {
-                isLoading && <h4>Loading...</h4>
-              }
+              
               {
                 !turf.pitches ? (
                   <div>
